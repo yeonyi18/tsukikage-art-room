@@ -306,7 +306,15 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 .gallery-delete-button:active {
   transform: scale(0.98);
 }
+/* 🦋 작품 카드에 마우스를 올리면 떠오르는 효과 */
+.gallery .tile {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 
+.gallery .tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(113, 82, 145, 0.18);
+}
 </style>
 </head>
 <body>
