@@ -20,6 +20,28 @@ h2{margin:0 0 6px;font-size:25px}.sub{font-size:13px;margin:0 0 20px;opacity:.8}
 .gallery .tiles{grid-template-columns:repeat(4,1fr)}.gallery .tile{min-height:100px;display:flex;flex-direction:column;justify-content:center}
 footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 @media(max-width:700px){body{padding:10px}.grid{grid-template-columns:1fr;gap:12px}.panel{padding:18px;min-height:0}.gallery{grid-column:auto}.gallery .tiles{grid-template-columns:repeat(2,1fr)}.hero{padding:28px 10px}.hero:before,.hero:after{font-size:11px}}
+
+/* 벚꽃과 금빛 제목 장식 */
+.hero {
+  overflow: hidden;
+  border: 3px double #e8c88c;
+  box-shadow: 0 8px 25px #5d52702b;
+}
+.hero::before {
+  content: "🌸 ❀ ✿";
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  font-size: 20px;
+}
+.hero::after {
+  content: "✿ ❀ 🌸";
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 20px;
+}
+  
 </style>
 </head>
 <body>
