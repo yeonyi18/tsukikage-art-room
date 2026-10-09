@@ -297,7 +297,17 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 
   <div id="libraryList"></div>
 </section>
-<section class="panel growth"><h2>✧ 성장 연대기</h2><p class="sub">어제보다 조금 더, 나아가는 지금</p><div class="chart"><div class="bar" style="height:24%"></div><div class="bar" style="height:37%"></div><div class="bar" style="height:33%"></div><div class="bar" style="height:57%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:86%"></div></div><div class="entry">🦋 성장 그래프 <small>위 그래프는 디자인 예시이며 실제 기록은 추후 연결</small></div></section>
+<section class="panel growth">
+  <h2>✧ 성장 연대기</h2>
+  <p class="sub">어제보다 조금 더, 나아가는 지금</p>
+
+  <div class="chart" id="growthChart"></div>
+
+  <div class="entry">
+    <b>🦋 성장 그래프</b>
+    <p id="growthText">수련 기록을 기다리고 있어요 🌙</p>
+  </div>
+</section>
 <section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
 </main><footer>❀ 그림을 그리고, 배우고, 간직하는 나의 작은 화원 ❀</footer>
 </div>
@@ -453,6 +463,7 @@ function renderJournal() {
     card.append(heading, content, reflection, deleteButton);
     list.append(card);
   });
+  renderGrowth();
 }
 
 document.getElementById("saveJournal").addEventListener("click", () => {
@@ -566,6 +577,54 @@ document.getElementById("saveLibrary").addEventListener("click", () => {
 });
 
 renderLibrary();
+// 🦋 수련 기록으로 성장 그래프 만들기
+function renderGrowth() {
+  const chart = document.getElementById("growthChart");
+  const text = document.getElementById("growthText");
+
+  if (!chart || !text) return;
+
+  chart.innerHTML = "";
+
+  const today = new Date();
+  const counts = [];
+
+  // 최근 7일 동안 작성한 수련 기록 개수
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date(today);
+    day.setDate(today.getDate() - i);
+
+    const dateString = [
+      day.getFullYear(),
+      String(day.getMonth() + 1).padStart(2, "0"),
+      String(day.getDate()).padStart(2, "0")
+    ].join("-");
+
+    const count = journalEntries.filter(
+      entry => entry.date === dateString
+    ).length;
+
+    counts.push(count);
+  }
+
+  const maxCount = Math.max(1, ...counts);
+
+  counts.forEach(count => {
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.height = `${Math.max(5, count / maxCount * 100)}%`;
+    bar.title = `수련 기록 ${count}개`;
+    chart.appendChild(bar);
+  });
+
+  const total = journalEntries.length;
+
+  text.textContent = total > 0
+    ? `🌸 지금까지 ${total}개의 수련 기록을 남겼어요!`
+    : "🌙 첫 수련 기록을 기다리고 있어요.";
+}
+
+renderGrowth();
 </script>
 </body>
 </html>
