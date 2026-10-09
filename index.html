@@ -389,6 +389,7 @@ function render() {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.disabled = true;
     checkbox.checked = goal.checked.length >= goal.target;
     checkbox.setAttribute("aria-label", goal.name + " 목표 완료");
 
@@ -404,26 +405,51 @@ function render() {
     count.className = "goal-count";
     count.textContent =
       `${goal.checked.length} / ${goal.target}회 완료 · 이름을 눌러 수정`;
+    
+const controls = document.createElement("div");
+controls.className = "goal-controls";
 
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        goal.checked = Array.from(
-          { length: goal.target }, (_, i) => i
-        );
-      } else {
-        goal.checked = [];
-      }
-      saveGoals();
-      render();
-    });
+const minus = document.createElement("button");
+minus.type = "button";
+minus.textContent = "−";
+minus.className = "count-button";
 
+const plus = document.createElement("button");
+plus.type = "button";
+plus.textContent = "+";
+plus.className = "count-button";
+
+const counter = document.createElement("span");
+counter.className = "count-number";
+counter.textContent = `${goal.checked.length} / ${goal.target}`;
+
+minus.disabled = goal.checked.length === 0;
+plus.disabled = goal.checked.length >= goal.target;
+
+minus.addEventListener("click", () => {
+  if (goal.checked.length > 0) {
+    goal.checked.pop();
+    saveGoals();
+    render();
+  }
+});
+
+plus.addEventListener("click", () => {
+  if (goal.checked.length < goal.target) {
+    goal.checked.push(goal.checked.length);
+    saveGoals();
+    render();
+  }
+});
+
+controls.append(minus, counter, plus);
     name.addEventListener("change", () => {
       goal.name = name.value.trim() || "새 수련 목표";
       saveGoals();
       render();
     });
 
-    content.append(name, count);
+    content.append(name, count, controls);
     row.append(checkbox, content);
     list.append(row);
   });
