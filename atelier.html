@@ -803,6 +803,28 @@ image.addEventListener("click", () => {
   });
 
   overlay.append(enlargedImage);
+  // 🌸 사진 확대 화면 닫기 버튼
+const closeButton = document.createElement("button");
+closeButton.type = "button";
+closeButton.textContent = "×";
+
+Object.assign(closeButton.style, {
+  position: "absolute",
+  top: "20px",
+  right: "24px",
+  width: "42px",
+  height: "42px",
+  border: "1px solid #d8c2e5",
+  borderRadius: "50%",
+  background: "#fff8fd",
+  color: "#75548b",
+  fontSize: "28px",
+  cursor: "pointer",
+  zIndex: "10000"
+});
+
+closeButton.addEventListener("click", () => overlay.remove());
+overlay.append(closeButton);
   overlay.addEventListener("click", () => overlay.remove());
   document.body.append(overlay);
 });
