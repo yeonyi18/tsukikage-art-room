@@ -225,6 +225,46 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   background: #d2e9dc;
   border-color: #84b99b;
 }
+  
+/* 🦋 작품 화첩 입력 공간 */
+.gallery .entry {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid #d8c2e5;
+  border-radius: 14px;
+  background: #faf5ff;
+  margin: 14px 0;
+}
+
+.gallery input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d8c2e5;
+  border-radius: 12px;
+  background: #fffafd;
+  color: #655078;
+  font-family: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+#saveGallery {
+  padding: 11px 18px;
+  border: 1px solid #c9a7dd;
+  border-radius: 20px;
+  background: #f0dff8;
+  color: #75548b;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#saveGallery:hover {
+  background: #e6cff3;
+}
+
 </style>
 </head>
 <body>
@@ -308,7 +348,37 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
     <p id="growthText">수련 기록을 기다리고 있어요 🌙</p>
   </div>
 </section>
-<section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
+
+<section class="panel gallery">
+  <h2>🦋 작품 화첩</h2>
+  <p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p>
+
+  <div class="entry">
+    <input
+      type="text"
+      id="galleryTitle"
+      placeholder="작품 제목을 입력해 주세요"
+    >
+
+    <input
+      type="date"
+      id="galleryDate"
+    >
+
+    <input
+      type="file"
+      id="galleryImage"
+      accept="image/*"
+    >
+
+    <button type="button" id="saveGallery">
+      🌸 작품 등록하기
+    </button>
+  </div>
+
+  <div id="galleryList" class="tiles"></div>
+</section>
+
 </main><footer>❀ 그림을 그리고, 배우고, 간직하는 나의 작은 화원 ❀</footer>
 </div>
 <script>
@@ -625,6 +695,116 @@ function renderGrowth() {
 }
 
 renderGrowth();
+  
+/* 🦋 작품 화첩 저장 기능 */
+const galleryStorageKey = "small-garden-gallery-v1";
+
+function loadGallery() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(galleryStorageKey));
+    return Array.isArray(saved) ? saved : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+let galleryEntries = loadGallery();
+
+function renderGallery() {
+  const list = document.getElementById("galleryList");
+  list.replaceChildren();
+
+  galleryEntries.forEach((entry, index) => {
+    const card = document.createElement("div");
+    card.className = "tile";
+
+    const image = document.createElement("img");
+    image.src = entry.image;
+    image.alt = entry.title;
+    image.style.width = "100%";
+    image.style.borderRadius = "12px";
+    image.style.marginBottom = "10px";
+
+    const title = document.createElement("strong");
+    title.textContent = `🦋 ${entry.title}`;
+
+    const date = document.createElement("p");
+    date.textContent = `🌙 ${entry.date}`;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "기록 삭제";
+    deleteButton.className = "gallery-delete-button";
+
+    deleteButton.addEventListener("click", () => {
+      if (!confirm("이 작품을 삭제할까요?")) return;
+
+      const updated = galleryEntries.filter((_, i) => i !== index);
+
+      try {
+        localStorage.setItem(galleryStorageKey, JSON.stringify(updated));
+        galleryEntries = updated;
+        renderGallery();
+      } catch (error) {
+        alert("작품을 삭제하지 못했어요.");
+      }
+    });
+
+    card.append(image, title, date, deleteButton);
+    list.append(card);
+  });
+}
+
+document.getElementById("saveGallery").addEventListener("click", () => {
+  const titleInput = document.getElementById("galleryTitle");
+  const dateInput = document.getElementById("galleryDate");
+  const imageInput = document.getElementById("galleryImage");
+
+  const title = titleInput.value.trim();
+  const date = dateInput.value;
+  const file = imageInput.files[0];
+
+  if (!title || !date || !file) {
+    alert("작품 제목, 날짜, 이미지를 모두 입력해 주세요.");
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    alert("이미지 파일을 선택해 주세요.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const updated = [
+      { title, date, image: reader.result },
+      ...galleryEntries
+    ];
+
+    try {
+      localStorage.setItem(galleryStorageKey, JSON.stringify(updated));
+      galleryEntries = updated;
+
+      titleInput.value = "";
+      dateInput.value = "";
+      imageInput.value = "";
+
+      renderGallery();
+    } catch (error) {
+      alert("저장 공간이 부족해요. 더 작은 이미지를 사용해 주세요.");
+    }
+  };
+
+  reader.onerror = () => {
+    alert("이미지를 읽지 못했어요. 다시 선택해 주세요.");
+  };
+
+  reader.readAsDataURL(file);
+});
+
+renderGallery();
+
 </script>
 </body>
 </html>
