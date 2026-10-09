@@ -1,11 +1,37 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>나의 작은 화원</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 작은 화원</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px;background:linear-gradient(135deg,#eee7f2,#f9eef0 50%,#e9edf5);font-family:Georgia,'Malgun Gothic',serif;color:#35486b}
+.garden{max-width:1100px;margin:auto}
+.hero{position:relative;text-align:center;background:linear-gradient(135deg,#39476a,#76576d);border:3px double #ddc59c;border-radius:18px;color:#fff4e3;padding:34px 15px;margin-bottom:18px;box-shadow:0 8px 25px #5d52702b}
+.hero:before,.hero:after{content:'✿ ❀ ✿';position:absolute;color:#e8b9c7;font-size:18px;top:14px}.hero:before{left:18px}.hero:after{right:18px}
+h1{margin:0 0 8px;font-size:clamp(25px,4vw,39px);letter-spacing:3px}.hero p{margin:0;color:#f2dce7;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{--bg:#fff;--ink:#35486b;--edge:#ddd;position:relative;background:var(--bg);border:3px double var(--edge);border-radius:16px;padding:22px;min-height:270px;color:var(--ink);box-shadow:0 5px 15px #63556c14;overflow:hidden}
+.panel:after{content:'✿';position:absolute;right:15px;top:10px;font-size:38px;color:var(--edge);opacity:.9}
+h2{margin:0 0 6px;font-size:25px}.sub{font-size:13px;margin:0 0 20px;opacity:.8}.entry{background:#ffffffa8;border:1px solid var(--edge);border-radius:10px;padding:14px;margin:10px 0;font-size:14px}.entry small{display:block;opacity:.65;margin-top:5px}.pill{display:inline-block;border:1px solid var(--edge);border-radius:20px;padding:5px 10px;margin:0 4px 8px 0;font-size:12px;background:#ffffff99}.progress{height:8px;background:#ffffffb8;border-radius:10px;overflow:hidden;margin-top:9px}.progress span{display:block;height:100%;background:var(--ink);width:35%;border-radius:10px}
+.month{--bg:#f8eedf;--ink:#263f68;--edge:#d8b77c}.journal{--bg:#f9e7ea;--ink:#855465;--edge:#e8c5ca}.library{--bg:#e8f1e9;--ink:#3f6b61;--edge:#bdd6c9}.growth{--bg:#e8f0fc;--ink:#364f78;--edge:#c1d1e7}.gallery{--bg:#eee5f8;--ink:#62557f;--edge:#d6c6e6;grid-column:1/-1}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{background:#ffffffb0;border:1px solid var(--edge);border-radius:10px;padding:16px 8px;text-align:center;font-size:13px}.tile b{display:block;font-size:24px;margin-bottom:8px}.chart{height:95px;display:flex;align-items:end;gap:9px;padding:10px 6px;border-bottom:1px solid var(--edge)}.bar{flex:1;background:#91abd2;border-radius:5px 5px 0 0}
+.gallery .tiles{grid-template-columns:repeat(4,1fr)}.gallery .tile{min-height:100px;display:flex;flex-direction:column;justify-content:center}
+footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
+@media(max-width:700px){body{padding:10px}.grid{grid-template-columns:1fr;gap:12px}.panel{padding:18px;min-height:0}.gallery{grid-column:auto}.gallery .tiles{grid-template-columns:repeat(2,1fr)}.hero{padding:28px 10px}.hero:before,.hero:after{font-size:11px}}
+</style>
 </head>
 <body>
-  <h1>✿ 나의 작은 화원 ✿</h1>
-  <p>나만의 그림 수련 공간</p>
+<div class="garden">
+<header class="hero"><h1>✿ 나의 작은 화원 ✿</h1><p>한 획 한 획, 나만의 세계를 피워가다.</p></header>
+<main class="grid">
+<section class="panel month"><h2>✦ 이달의 수련</h2><p class="sub">이번 달, 더 나은 내가 되기 위해</p><div class="entry">전신 인체 드로잉<div class="progress"><span style="width:50%"></span></div><small>예시 진행률 · 2 / 4</small></div><div class="entry">인체 도형화 연습<div class="progress"><span style="width:25%"></span></div><small>예시 진행률 · 1 / 4</small></div><div class="entry">포즈 크로키<div class="progress"><span style="width:75%"></span></div><small>예시 진행률 · 3 / 4</small></div></section>
+<section class="panel journal"><h2>✿ 수련 일지</h2><p class="sub">하루의 붓끝을 기록하다</p><span class="pill">전체</span><span class="pill">인체 드로잉</span><span class="pill">크로키</span><div class="entry">🌸 오늘의 수련 기록<small>연습한 그림과 느낀 점을 담을 공간</small></div><div class="entry">📜 지난 수련 기록<small>하루하루 쌓이는 나의 연습</small></div></section>
+<section class="panel library"><h2>❀ 지식 서고</h2><p class="sub">그림을 더 깊이 이해하기 위해</p><div class="tiles"><div class="tile"><b>📖</b>인체 자료</div><div class="tile"><b>🎨</b>채색 이론</div><div class="tile"><b>✏️</b>구도와 연출</div></div><div class="entry">✧ 나만의 그림 공부 자료를 모으는 곳</div></section>
+<section class="panel growth"><h2>✧ 성장 연대기</h2><p class="sub">어제보다 조금 더, 나아가는 지금</p><div class="chart"><div class="bar" style="height:24%"></div><div class="bar" style="height:37%"></div><div class="bar" style="height:33%"></div><div class="bar" style="height:57%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:86%"></div></div><div class="entry">🦋 성장 그래프 <small>위 그래프는 디자인 예시이며 실제 기록은 추후 연결</small></div></section>
+<section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
+</main><footer>❀ 그림을 그리고, 배우고, 간직하는 나의 작은 화원 ❀</footer>
+</div>
 </body>
 </html>
