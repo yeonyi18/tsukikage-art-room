@@ -1,0 +1,367 @@
+<div class="atelier">
+  <header class="hero">
+    <div class="moon">☾</div>
+    <p class="eyebrow">月影の画室 · ARTIST'S JOURNAL</p>
+    <h1>월영의 화실</h1>
+    <p class="subtitle">달빛 아래, 한 획씩 쌓아 가는 수련</p>
+    <div class="ornament">❧ ───── ✦ ───── ❧</div>
+  </header>
+
+  <section class="panel">
+    <div class="section-top">
+      <div>
+        <p class="eyebrow">MONTHLY TRAINING</p>
+        <h2 id="monthTitle">이달의 수련</h2>
+      </div>
+      <span class="seal">修練</span>
+    </div>
+
+    <div class="progress-info">
+      <span>수련 진척도</span>
+      <strong id="percent">0%</strong>
+    </div>
+    <div class="progress-track">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+    <p id="progressText" class="muted">완료 0 / 목표 12회</p>
+
+    <div class="divider"></div>
+    <h3>📜 수련 목표</h3>
+    <p class="muted small">한 번에 완벽하지 않아도 괜찮아. 꾸준히 이어 가기.</p>
+    <div id="goalList"></div>
+
+    <button id="resetButton" class="reset">이번 달 체크 초기화</button>
+  </section>
+
+  <footer>一日一絵 · 하루 한 장의 축적</footer>
+</div>
+<style>
+  :root {
+  --rose: #7C303B;
+  --pine: #486B52;
+  --gold: #C6B58B;
+  --paper: #F2EBDD;
+  --ink: #343B30;
+  --line: #DED1B8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 18px;
+  background: transparent;
+  font-family: "Noto Serif KR", "Batang", serif;
+  color: var(--ink);
+}
+
+.atelier {
+  max-width: 620px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: 0 10px 30px #343b3012;
+}
+
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 30px 20px 24px;
+  color: var(--paper);
+  background:
+    radial-gradient(ellipse at 50% 0%, #70846A 0%, transparent 55%),
+    var(--pine);
+  border-bottom: 3px double var(--gold);
+}
+
+.moon {
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 34px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 2.5px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(27px, 6vw, 38px);
+  letter-spacing: 4px;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 12px 0;
+  font-size: 12px;
+  opacity: .92;
+}
+
+.ornament {
+  margin-top: 17px;
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.panel { padding: 25px; }
+
+.section-top, .progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 23px;
+  color: var(--pine);
+}
+
+.seal {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--rose);
+  outline: 1px solid var(--rose);
+  outline-offset: 3px;
+  border-radius: 9px;
+  color: var(--rose);
+  font-size: 14px;
+  writing-mode: vertical-rl;
+}
+
+.progress-info {
+  margin-top: 25px;
+  font-size: 13px;
+}
+
+.progress-info strong {
+  color: var(--rose);
+  font-size: 22px;
+}
+
+.progress-track {
+  height: 12px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #D6C6A7;
+  border-radius: 20px;
+  background: #E4D9C6;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--rose), #A65A5D);
+  transition: width .3s ease;
+}
+
+.muted {
+  color: #777666;
+  font-size: 12px;
+}
+
+.small { font-size: 11px; }
+
+.divider {
+  height: 1px;
+  margin: 23px 0;
+  background: var(--line);
+}
+
+h3 {
+  margin: 0 0 7px;
+  color: var(--pine);
+  font-size: 16px;
+}
+
+.goal {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #FAF6ED;
+}
+
+.goal input {
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0;
+  accent-color: var(--pine);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.goal-content { flex: 1; min-width: 0; }
+
+.goal-name {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+
+.goal-count {
+  display: block;
+  margin-top: 5px;
+  color: #777666;
+  font-size: 11px;
+}
+
+.goal.done {
+  background: #E9EDE4;
+}
+
+.goal.done .goal-name {
+  color: #777666;
+  text-decoration: line-through;
+}
+
+.reset {
+  display: block;
+  margin: 20px 0 0 auto;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: #777666;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.reset:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+footer {
+  padding: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--rose);
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 420px) {
+  body { padding: 4px; }
+  .panel { padding: 18px; }
+  .hero { padding: 25px 12px 20px; }
+}
+  </style
+    <script>
+  const initialGoals = [
+  { id: "anatomy", name: "전신 인체 드로잉", target: 4, checked: [] },
+  { id: "forms", name: "인체 도형화 연습", target: 4, checked: [] },
+  { id: "gesture", name: "포즈 크로키", target: 4, checked: [] }
+];
+
+const storageKey = "tsukikage-art-goals-v1";
+
+function loadGoals() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(saved) && saved.length) return saved;
+  } catch (error) {}
+  return initialGoals.map(goal => ({ ...goal }));
+}
+
+let goals = loadGoals();
+
+function saveGoals() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(goals));
+  } catch (error) {}
+}
+
+function render() {
+  const total = goals.reduce((sum, goal) => sum + goal.target, 0);
+  const completed = goals.reduce(
+    (sum, goal) => sum + goal.checked.length, 0
+  );
+  const percent = total ? Math.round(completed / total * 100) : 0;
+
+  document.getElementById("monthTitle").textContent =
+    `${new Date().getMonth() + 1}월의 수련`;
+  document.getElementById("percent").textContent = `${percent}%`;
+  document.getElementById("progressBar").style.width = `${percent}%`;
+  document.getElementById("progressText").textContent =
+    `완료 ${completed} / 목표 ${total}회`;
+
+  const list = document.getElementById("goalList");
+  list.replaceChildren();
+
+  goals.forEach(goal => {
+    const row = document.createElement("div");
+    row.className = "goal" +
+      (goal.checked.length >= goal.target ? " done" : "");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = goal.checked.length >= goal.target;
+    checkbox.setAttribute("aria-label", goal.name + " 목표 완료");
+
+    const content = document.createElement("div");
+    content.className = "goal-content";
+
+    const name = document.createElement("input");
+    name.className = "goal-name";
+    name.value = goal.name;
+    name.setAttribute("aria-label", "목표 이름 수정");
+
+    const count = document.createElement("span");
+    count.className = "goal-count";
+    count.textContent =
+      `${goal.checked.length} / ${goal.target}회 완료 · 이름을 눌러 수정`;
+
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
+        goal.checked = Array.from(
+          { length: goal.target }, (_, i) => i
+        );
+      } else {
+        goal.checked = [];
+      }
+      saveGoals();
+      render();
+    });
+
+    name.addEventListener("change", () => {
+      goal.name = name.value.trim() || "새 수련 목표";
+      saveGoals();
+      render();
+    });
+
+    content.append(name, count);
+    row.append(checkbox, content);
+    list.append(row);
+  });
+}
+
+document.getElementById("resetButton").addEventListener("click", () => {
+  if (!confirm("이번 달 수련 체크를 모두 초기화할까?")) return;
+  goals.forEach(goal => { goal.checked = []; });
+  saveGoals();
+  render();
+});
+
+render();
+</script>
