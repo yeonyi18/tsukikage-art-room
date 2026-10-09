@@ -293,6 +293,76 @@ document.getElementById("resetButton").addEventListener("click", () => {
 
 renderGoals();
 
+/* 🌸 수련 일지 저장 기능 */
+const journalStorageKey = "small-garden-journal-v1";
+
+function loadJournal() {
+  try {
+    return JSON.parse(localStorage.getItem(journalStorageKey)) || [];
+  } catch (error) {
+    return [];
+  }
+}
+
+let journalEntries = loadJournal();
+
+function renderJournal() {
+  const list = document.getElementById("journalList");
+  list.replaceChildren();
+
+  journalEntries.forEach((entry, index) => {
+    const card = document.createElement("div");
+    card.className = "entry";
+    card.style.marginTop = "12px";
+
+    const heading = document.createElement("strong");
+    heading.textContent = `🌸 ${entry.date} · ${entry.type}`;
+
+    const content = document.createElement("p");
+    content.textContent = `📜 ${entry.content}`;
+    content.style.whiteSpace = "pre-wrap";
+
+    const reflection = document.createElement("p");
+    reflection.textContent = `🌙 ${entry.reflection}`;
+    reflection.style.whiteSpace = "pre-wrap";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "기록 삭제";
+    deleteButton.addEventListener("click", () => {
+      if (!confirm("이 수련 기록을 삭제할까요?")) return;
+      journalEntries.splice(index, 1);
+      localStorage.setItem(journalStorageKey, JSON.stringify(journalEntries));
+      renderJournal();
+    });
+
+    card.append(heading, content, reflection, deleteButton);
+    list.append(card);
+  });
+}
+
+document.getElementById("saveJournal").addEventListener("click", () => {
+  const date = document.getElementById("journalDate").value;
+  const type = document.getElementById("journalType").value;
+  const content = document.getElementById("journalContent").value.trim();
+  const reflection = document.getElementById("journalReflection").value.trim();
+
+  if (!date || !content) {
+    alert("수련 날짜와 오늘의 연습을 입력해 주세요.");
+    return;
+  }
+
+  journalEntries.unshift({ date, type, content, reflection });
+  localStorage.setItem(journalStorageKey, JSON.stringify(journalEntries));
+
+  document.getElementById("journalContent").value = "";
+  document.getElementById("journalReflection").value = "";
+
+  renderJournal();
+});
+
+renderJournal();
+
 </script>
 </body>
 </html>
