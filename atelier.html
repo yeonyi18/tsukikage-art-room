@@ -147,6 +147,31 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   background: #f9dce6;
 }
 
+/* 🌸 수련 일지 기록 삭제 버튼 */
+.journal-delete-button {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 16px;
+  border: 1px solid #df9db3;
+  border-radius: 20px;
+  background: #fce4ed;
+  color: #965a70;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.journal-delete-button:hover {
+  background: #f7d1df;
+  border-color: #cb7897;
+}
+
+.journal-delete-button:active {
+  transform: scale(0.98);
+}
+
 </style>
 </head>
 <body>
@@ -329,6 +354,7 @@ function renderJournal() {
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.textContent = "기록 삭제";
+    deleteButton.className = "journal-delete-button";
     deleteButton.addEventListener("click", () => {
       if (!confirm("이 수련 기록을 삭제할까요?")) return;
       journalEntries.splice(index, 1);
