@@ -95,6 +95,58 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   transform: translateY(0);
 }
 
+/* 🌸 수련 일지 입력칸 */
+.journal .entry {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #fff8fa;
+  border: 1px solid #edc3cf;
+  border-radius: 12px;
+}
+
+.journal label {
+  color: #965a70;
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.journal input,
+.journal select,
+.journal textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e8bcc9;
+  border-radius: 9px;
+  background: #fffdfd;
+  color: #70465a;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.journal textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+#saveJournal {
+  margin-top: 10px;
+  padding: 11px;
+  border: 1px solid #d99aae;
+  border-radius: 20px;
+  background: #fff0f5;
+  color: #965a70;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#saveJournal:hover {
+  background: #f9dce6;
+}
+
 </style>
 </head>
 <body>
@@ -102,7 +154,35 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 <header class="hero"><h1>✿ 나의 작은 화원 ✿</h1><p>한 획 한 획, 나만의 세계를 피워가다.</p></header>
 <main class="grid">
 <section class="panel month"><h2>✦ 이달의 수련</h2><p class="sub">이번 달, 더 나은 내가 되기 위해</p><div id="goalList"></div><div class="entry"><strong id="percent">0%</strong> · <span id="progressText">완료 0 / 목표 12회</span><div class="progress"><span id="progressBar" style="width:0%"></span></div></div><button id="resetButton" type="button">수련 기록 초기화</button></section>
-<section class="panel journal"><h2>✿ 수련 일지</h2><p class="sub">하루의 붓끝을 기록하다</p><span class="pill">전체</span><span class="pill">인체 드로잉</span><span class="pill">크로키</span><div class="entry">🌸 오늘의 수련 기록<small>연습한 그림과 느낀 점을 담을 공간</small></div><div class="entry">📜 지난 수련 기록<small>하루하루 쌓이는 나의 연습</small></div></section>
+
+<section class="panel journal">
+  <h2>✿ 수련 일지</h2>
+  <p class="sub">하루의 붓끝을 기록하다</p>
+
+  <div class="entry">
+    <label for="journalDate">🌸 수련 날짜</label>
+    <input type="date" id="journalDate">
+
+    <label for="journalType">✏️ 수련 종류</label>
+    <select id="journalType">
+      <option value="인체 드로잉">인체 드로잉</option>
+      <option value="크로키">크로키</option>
+      <option value="인체 도형화">인체 도형화</option>
+      <option value="기타">기타</option>
+    </select>
+
+    <label for="journalContent">📜 오늘의 연습</label>
+    <textarea id="journalContent" placeholder="오늘 무엇을 연습했나요?"></textarea>
+
+    <label for="journalReflection">🌙 오늘의 느낀 점</label>
+    <textarea id="journalReflection" placeholder="잘된 점이나 어려웠던 점을 적어 주세요."></textarea>
+
+    <button type="button" id="saveJournal">🌸 수련 기록 남기기</button>
+  </div>
+
+  <div id="journalList"></div>
+</section>
+
 <section class="panel library"><h2>❀ 지식 서고</h2><p class="sub">그림을 더 깊이 이해하기 위해</p><div class="tiles"><div class="tile"><b>📖</b>인체 자료</div><div class="tile"><b>🎨</b>채색 이론</div><div class="tile"><b>✏️</b>구도와 연출</div></div><div class="entry">✧ 나만의 그림 공부 자료를 모으는 곳</div></section>
 <section class="panel growth"><h2>✧ 성장 연대기</h2><p class="sub">어제보다 조금 더, 나아가는 지금</p><div class="chart"><div class="bar" style="height:24%"></div><div class="bar" style="height:37%"></div><div class="bar" style="height:33%"></div><div class="bar" style="height:57%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:86%"></div></div><div class="entry">🦋 성장 그래프 <small>위 그래프는 디자인 예시이며 실제 기록은 추후 연결</small></div></section>
 <section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
