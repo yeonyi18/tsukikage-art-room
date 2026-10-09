@@ -41,6 +41,33 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   right: 18px;
   font-size: 20px;
 }
+
+/* 고풍스러운 금빛 모서리 장식 */
+.panel {
+  position: relative;
+  outline: 1px solid rgba(190, 151, 91, 0.35);
+  outline-offset: -8px;
+}
+
+.panel::before {
+  content: "✧";
+  position: absolute;
+  top: 7px;
+  left: 12px;
+  color: #c7a46c;
+  font-size: 17px;
+  opacity: 0.8;
+}
+
+.panel::after {
+  content: "❧";
+  position: absolute;
+  right: 12px;
+  bottom: 7px;
+  color: #c7a46c;
+  font-size: 21px;
+  opacity: 0.65;
+}
   
 </style>
 </head>
