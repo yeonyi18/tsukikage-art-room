@@ -340,6 +340,39 @@ footer {
   background: #E9EDF5;
 }
   
+.count-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 2px 6px;
+  font-size: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.count-button:first-child {
+  color: #A63243;
+}
+
+.count-button:last-child {
+  color: #426A98;
+}
+
+.count-button:hover:not(:disabled) {
+  opacity: 0.65;
+}
+
+.count-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.count-number {
+  color: #263F68;
+  font-size: 13px;
+}
+
   </style>
  <script>
   const initialGoals = [
