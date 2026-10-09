@@ -75,12 +75,118 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 <div class="garden">
 <header class="hero"><h1>✿ 나의 작은 화원 ✿</h1><p>한 획 한 획, 나만의 세계를 피워가다.</p></header>
 <main class="grid">
-<section class="panel month"><h2>✦ 이달의 수련</h2><p class="sub">이번 달, 더 나은 내가 되기 위해</p><div class="entry">전신 인체 드로잉<div class="progress"><span style="width:50%"></span></div><small>예시 진행률 · 2 / 4</small></div><div class="entry">인체 도형화 연습<div class="progress"><span style="width:25%"></span></div><small>예시 진행률 · 1 / 4</small></div><div class="entry">포즈 크로키<div class="progress"><span style="width:75%"></span></div><small>예시 진행률 · 3 / 4</small></div></section>
+<section class="panel month"><h2>✦ 이달의 수련</h2><p class="sub">이번 달, 더 나은 내가 되기 위해</p><div id="goalList"></div><div class="entry"><strong id="percent">0%</strong> · <span id="progressText">완료 0 / 목표 12회</span><div class="progress"><span id="progressBar" style="width:0%"></span></div></div><button id="resetButton" type="button">수련 기록 초기화</button></section>
 <section class="panel journal"><h2>✿ 수련 일지</h2><p class="sub">하루의 붓끝을 기록하다</p><span class="pill">전체</span><span class="pill">인체 드로잉</span><span class="pill">크로키</span><div class="entry">🌸 오늘의 수련 기록<small>연습한 그림과 느낀 점을 담을 공간</small></div><div class="entry">📜 지난 수련 기록<small>하루하루 쌓이는 나의 연습</small></div></section>
 <section class="panel library"><h2>❀ 지식 서고</h2><p class="sub">그림을 더 깊이 이해하기 위해</p><div class="tiles"><div class="tile"><b>📖</b>인체 자료</div><div class="tile"><b>🎨</b>채색 이론</div><div class="tile"><b>✏️</b>구도와 연출</div></div><div class="entry">✧ 나만의 그림 공부 자료를 모으는 곳</div></section>
 <section class="panel growth"><h2>✧ 성장 연대기</h2><p class="sub">어제보다 조금 더, 나아가는 지금</p><div class="chart"><div class="bar" style="height:24%"></div><div class="bar" style="height:37%"></div><div class="bar" style="height:33%"></div><div class="bar" style="height:57%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:86%"></div></div><div class="entry">🦋 성장 그래프 <small>위 그래프는 디자인 예시이며 실제 기록은 추후 연결</small></div></section>
 <section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
 </main><footer>❀ 그림을 그리고, 배우고, 간직하는 나의 작은 화원 ❀</footer>
 </div>
+<script>
+  
+const initialGoals = [
+  { name: "전신 인체 드로잉", count: 0, target: 4 },
+  { name: "인체 도형화 연습", count: 0, target: 4 },
+  { name: "포즈 크로키", count: 0, target: 4 }
+];
+
+const storageKey = "small-garden-goals-v1";
+
+function loadGoals() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (Array.isArray(saved) && saved.length === 3) return saved;
+  } catch (error) {}
+  return initialGoals.map(goal => ({ ...goal }));
+}
+
+let goals = loadGoals();
+
+function saveGoals() {
+  localStorage.setItem(storageKey, JSON.stringify(goals));
+}
+
+function renderGoals() {
+  const list = document.getElementById("goalList");
+  list.replaceChildren();
+
+  goals.forEach((goal, index) => {
+    const entry = document.createElement("div");
+    entry.className = "entry";
+
+    const name = document.createElement("input");
+    name.value = goal.name;
+    name.setAttribute("aria-label", "수련 목표 이름");
+    name.style.cssText = "width:100%;border:0;background:transparent;color:#263f68;font:inherit;margin-bottom:8px;";
+
+    name.addEventListener("change", () => {
+      goal.name = name.value.trim() || "새 수련 목표";
+      saveGoals();
+      renderGoals();
+    });
+
+    const controls = document.createElement("div");
+    controls.style.cssText = "display:flex;align-items:center;gap:10px;";
+
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    const plus = document.createElement("button");
+    plus.textContent = "+";
+
+    [minus, plus].forEach(button => {
+      button.type = "button";
+      button.style.cssText = "padding:4px 12px;border:1px solid #d8b77c;border-radius:8px;background:#fffaf3;color:#263f68;cursor:pointer;";
+    });
+
+    const count = document.createElement("span");
+    count.textContent = `${goal.count} / ${goal.target}회`;
+
+    minus.disabled = goal.count === 0;
+    plus.disabled = goal.count >= goal.target;
+
+    minus.addEventListener("click", () => {
+      if (goal.count > 0) goal.count--;
+      saveGoals();
+      renderGoals();
+    });
+
+    plus.addEventListener("click", () => {
+      if (goal.count < goal.target) goal.count++;
+      saveGoals();
+      renderGoals();
+    });
+
+    controls.append(minus, count, plus);
+
+    const progress = document.createElement("div");
+    progress.className = "progress";
+    const bar = document.createElement("span");
+    bar.style.width = `${goal.count / goal.target * 100}%`;
+    progress.append(bar);
+
+    entry.append(name, controls, progress);
+    list.append(entry);
+  });
+
+  const completed = goals.reduce((sum, goal) => sum + goal.count, 0);
+  const total = goals.reduce((sum, goal) => sum + goal.target, 0);
+  const percent = Math.round(completed / total * 100);
+
+  document.getElementById("percent").textContent = `${percent}%`;
+  document.getElementById("progressText").textContent =
+    `완료 ${completed} / 목표 ${total}회`;
+  document.getElementById("progressBar").style.width = `${percent}%`;
+}
+
+document.getElementById("resetButton").addEventListener("click", () => {
+  if (!confirm("이번 달 수련 기록을 모두 초기화할까요?")) return;
+  goals.forEach(goal => goal.count = 0);
+  saveGoals();
+  renderGoals();
+});
+
+renderGoals();
+
+</script>
 </body>
 </html>
