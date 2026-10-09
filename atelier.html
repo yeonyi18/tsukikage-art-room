@@ -315,6 +315,20 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   transform: translateY(-5px);
   box-shadow: 0 10px 24px rgba(113, 82, 145, 0.18);
 }
+/* 🌸 작은 화면에서도 예쁘게 정렬 */
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    min-width: 0;
+  }
+
+  .gallery .tiles {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
 </style>
 </head>
 <body>
