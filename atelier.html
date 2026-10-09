@@ -171,7 +171,30 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
 .journal-delete-button:active {
   transform: scale(0.98);
 }
+/* 🌿 지식 서고 삭제 버튼 */
+.library-delete-button {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px 16px;
+  border: 1px solid #a8ceb9;
+  border-radius: 20px;
+  background: #f4faf5;
+  color: #477563;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
+.library-delete-button:hover {
+  background: #dcefe3;
+  border-color: #84b99b;
+}
+
+.library-delete-button:active {
+  transform: scale(0.98);
+}
 </style>
 </head>
 <body>
@@ -462,7 +485,7 @@ function renderLibrary() {
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.textContent = "기록 삭제";
-    deleteButton.className = "journal-delete-button";
+    deleteButton.className = "library-delete-button";
 
     deleteButton.addEventListener("click", () => {
       if (!confirm("이 자료를 삭제할까요?")) return;
