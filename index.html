@@ -295,6 +295,52 @@ footer {
   box-sizing: border-box;
   overflow: visible;
 }
+  
+/* 여명의 화첩 - 붉은 새벽과 푸른 밤 */
+:root {
+  --rose: #A63243;
+  --pine: #263F68;
+  --gold: #D5B47D;
+  --paper: #F5EDE3;
+  --ink: #30354A;
+  --line: #DCCBB9;
+}
+
+.hero {
+  background:
+    radial-gradient(ellipse at 50% 0%, #405B82 0%, transparent 65%),
+    #263F68;
+}
+
+.hero::after {
+  content: "✦";
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  color: #D5B47D;
+  font-size: 15px;
+}
+
+.section-top h2::before {
+  content: "❀ ";
+  color: #A63243;
+  font-size: 18px;
+}
+
+.panel h3::after {
+  content: " ✦";
+  color: #D5B47D;
+  font-size: 12px;
+}
+
+.goal {
+  background: #FFF9F0;
+}
+
+.goal.done {
+  background: #E9EDF5;
+}
+  
   </style>
  <script>
   const initialGoals = [
