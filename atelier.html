@@ -208,7 +208,42 @@ footer{text-align:center;color:#826e84;padding:22px 0;font-size:12px}
   <div id="journalList"></div>
 </section>
 
-<section class="panel library"><h2>❀ 지식 서고</h2><p class="sub">그림을 더 깊이 이해하기 위해</p><div class="tiles"><div class="tile"><b>📖</b>인체 자료</div><div class="tile"><b>🎨</b>채색 이론</div><div class="tile"><b>✏️</b>구도와 연출</div></div><div class="entry">✧ 나만의 그림 공부 자료를 모으는 곳</div></section>
+<section class="panel library">
+  <h2>❀ 지식 서고</h2>
+  <p class="sub">그림을 더 깊이 이해하기 위해</p>
+
+  <div class="tiles">
+    <div class="tile"><b>📖</b>인체 자료</div>
+    <div class="tile"><b>🎨</b>채색 이론</div>
+    <div class="tile"><b>🖌️</b>구도와 연출</div>
+  </div>
+
+  <div class="entry">✧ 나만의 그림 공부 자료를 모으는 곳</div>
+
+  <div class="entry">
+    <input
+      type="text"
+      id="libraryTitle"
+      placeholder="자료 제목을 입력해 주세요"
+    >
+
+    <select id="libraryCategory">
+      <option value="인체 자료">📖 인체 자료</option>
+      <option value="채색 이론">🎨 채색 이론</option>
+      <option value="구도와 연출">🖌️ 구도와 연출</option>
+    </select>
+
+    <input
+      type="url"
+      id="libraryLink"
+      placeholder="자료 링크 (선택)"
+    >
+
+    <button type="button" id="saveLibrary">🌸 자료 추가하기</button>
+  </div>
+
+  <div id="libraryList"></div>
+</section>
 <section class="panel growth"><h2>✧ 성장 연대기</h2><p class="sub">어제보다 조금 더, 나아가는 지금</p><div class="chart"><div class="bar" style="height:24%"></div><div class="bar" style="height:37%"></div><div class="bar" style="height:33%"></div><div class="bar" style="height:57%"></div><div class="bar" style="height:68%"></div><div class="bar" style="height:86%"></div></div><div class="entry">🦋 성장 그래프 <small>위 그래프는 디자인 예시이며 실제 기록은 추후 연결</small></div></section>
 <section class="panel gallery"><h2>✿ 작품 화첩</h2><p class="sub">지금까지 그려온, 그리고 앞으로 그려갈</p><div class="tiles"><div class="tile"><b>🌸</b>첫 번째 작품</div><div class="tile"><b>🌙</b>두 번째 작품</div><div class="tile"><b>🦋</b>세 번째 작품</div><div class="tile"><b>＋</b>작품을 담을 자리</div></div></section>
 </main><footer>❀ 그림을 그리고, 배우고, 간직하는 나의 작은 화원 ❀</footer>
@@ -388,7 +423,96 @@ document.getElementById("saveJournal").addEventListener("click", () => {
 });
 
 renderJournal();
+// 🌸 지식 서고 저장 기능
+const libraryStorageKey = "small-garden-library-v1";
 
+let libraryEntries = [];
+
+try {
+  const savedLibrary = JSON.parse(localStorage.getItem(libraryStorageKey));
+  if (Array.isArray(savedLibrary)) {
+    libraryEntries = savedLibrary;
+  }
+} catch (error) {
+  libraryEntries = [];
+}
+
+function renderLibrary() {
+  const list = document.getElementById("libraryList");
+  list.replaceChildren();
+
+  libraryEntries.forEach((entry, index) => {
+    const card = document.createElement("div");
+    card.className = "entry";
+
+    const title = document.createElement("p");
+    title.textContent = `🌸 ${entry.category} · ${entry.title}`;
+
+    card.append(title);
+
+    if (entry.link) {
+      const link = document.createElement("a");
+      link.href = entry.link;
+      link.textContent = "🔗 자료 보러 가기";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      card.append(link);
+    }
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "기록 삭제";
+    deleteButton.className = "journal-delete-button";
+
+    deleteButton.addEventListener("click", () => {
+      if (!confirm("이 자료를 삭제할까요?")) return;
+
+      libraryEntries.splice(index, 1);
+      localStorage.setItem(libraryStorageKey, JSON.stringify(libraryEntries));
+      renderLibrary();
+    });
+
+    card.append(deleteButton);
+    list.append(card);
+  });
+}
+
+document.getElementById("saveLibrary").addEventListener("click", () => {
+  const titleInput = document.getElementById("libraryTitle");
+  const categoryInput = document.getElementById("libraryCategory");
+  const linkInput = document.getElementById("libraryLink");
+
+  const title = titleInput.value.trim();
+  const category = categoryInput.value;
+  const link = linkInput.value.trim();
+
+  if (!title) {
+    alert("자료 제목을 입력해 주세요.");
+    return;
+  }
+
+  if (link) {
+    try {
+      const url = new URL(link);
+      if (!["http:", "https:"].includes(url.protocol)) {
+        throw new Error("Invalid URL");
+      }
+    } catch (error) {
+      alert("링크는 https://로 시작하는 올바른 주소를 입력해 주세요.");
+      return;
+    }
+  }
+
+  libraryEntries.unshift({ title, category, link });
+  localStorage.setItem(libraryStorageKey, JSON.stringify(libraryEntries));
+
+  titleInput.value = "";
+  linkInput.value = "";
+
+  renderLibrary();
+});
+
+renderLibrary();
 </script>
 </body>
 </html>
